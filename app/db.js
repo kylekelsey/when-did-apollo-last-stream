@@ -1,4 +1,5 @@
 const pg = require("pg");
+const logger = require("./logger");
 
 exports.getClient = async () => {
   const { Client } = pg;
