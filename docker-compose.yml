@@ -1,0 +1,32 @@
+version: "3.8"
+
+services:
+  db:
+    build: ./db
+    restart: always
+    env_file: ./.env
+    environment:
+      POSTGRES_PASSWORD: $PGPASSWORD
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 1s
+      timeout: 5s
+      retries: 10
+  web:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file: ./.env
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      - PGHOST=db
+      - PGUSER=$PGUSER
+      - PGPASSWORD=$PGPASSWORD
+      - PGDATABASE=$PGDATABASE
+      - PGPORT=$PGPORT
+      - CLIENT_ID=$CLIENT_ID
+      - CLIENT_SECRET=$CLIENT_SECRET
+      - TABLE=$TABLE
+      - LOG_LEVEL=$LOG_LEVEL
