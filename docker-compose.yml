@@ -31,5 +31,5 @@ services:
       - TABLE=$TABLE
       - LOG_LEVEL=$LOG_LEVEL
     volumes:
-      -$CERT_PATH:$CERT_PATH
-      -$KEY_PATH:$KEY_PATH
+      - $CERT_PATH:$CERT_PATH
+      - $KEY_PATH:$KEY_PATH
