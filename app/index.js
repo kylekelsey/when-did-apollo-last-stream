@@ -10,7 +10,7 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/static/index.html");
 });
 
-app.use(express.static("static"));
+app.use(express.static("app/static"));
 
 app.get("/api", async (req, res) => {
   const client = await db.getClient();
