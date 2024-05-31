@@ -7,10 +7,10 @@ const db = require('./db');
 const logger = require("./logger");
 
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/index.html");
+  res.sendFile(__dirname + "static/index.html");
 });
 
-app.use("/assets", express.static(__dirname + "/assets"));
+app.use("/static", express.static(__dirname + "/static"));
 
 app.get("/api", async (req, res) => {
   const client = await db.getClient();
