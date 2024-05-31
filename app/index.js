@@ -5,6 +5,8 @@ const port = process.env.PORT;
 const cron = require("./cron");
 const db = require("./db");
 const logger = require("./logger");
+const https = require("https");
+const fs = require("fs");
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/static/index.html");
@@ -29,6 +31,18 @@ app.get("/api", async (req, res) => {
 
 cron.initScheduledJobs();
 
-app.listen(port, () => {
+const httpsServer = https.createServer(
+  {
+    key: fs.readFileSync(
+      "/etc/ssl/private/_.whendidapollostreamlast.com_private_key.key"
+    ),
+    cert: fs.readFileSync(
+      "/etc/ssl/certs/whendidapollostreamlast.com_ssl_certificate.cer"
+    ),
+  },
+  app
+);
+
+httpsServer.listen(port, () => {
   logger.info(`Server started!`);
 });

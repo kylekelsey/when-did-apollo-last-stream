@@ -15,7 +15,7 @@ services:
   web:
     build: .
     ports:
-      - "$PORT:$PORT"
+      - $PORT:$PORT
     env_file: ./.env
     depends_on:
       db:
@@ -30,3 +30,6 @@ services:
       - CLIENT_SECRET=$CLIENT_SECRET
       - TABLE=$TABLE
       - LOG_LEVEL=$LOG_LEVEL
+    volumes:
+      -$CERT_PATH:$CERT_PATH
+      -$KEY_PATH:$KEY_PATH
