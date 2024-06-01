@@ -1,18 +1,21 @@
 require("dotenv").config();
 const express = require("express");
 const app = express();
-const port = process.env.PORT;
 const cron = require("./cron");
 const db = require("./db");
 const logger = require("./logger");
 const https = require("https");
 const fs = require("fs");
+const compression = require("compression");
+const port = process.env.PORT;
+var httpsServer;
 
 app.get("/", (req, res) => {
   res.sendFile(__dirname + "/static/index.html");
 });
 
 app.use(express.static("./app/static"));
+app.use(compression());
 
 app.get("/api", async (req, res) => {
   const client = await db.getClient();
@@ -31,18 +34,19 @@ app.get("/api", async (req, res) => {
 
 cron.initScheduledJobs();
 
-const httpsServer = https.createServer(
-  {
-    key: fs.readFileSync(
-      "/etc/ssl/private/_.whendidapollostreamlast.com_private_key.key"
-    ),
-    cert: fs.readFileSync(
-      "/etc/ssl/certs/whendidapollostreamlast.com_ssl_certificate.cer"
-    ),
-  },
-  app
-);
-
-httpsServer.listen(port, () => {
-  logger.info(`Server started!`);
-});
+if (process.env.ENV != "local") {
+  httpsServer = https.createServer(
+    {
+      key: fs.readFileSync(process.env.KEY_PATH),
+      cert: fs.readFileSync(process.env.CERT_PATH),
+    },
+    app
+  );
+  httpsServer.listen(port, () => {
+    logger.info(`HTTPS Server started!`);
+  });
+} else {
+  app.listen(port, () => {
+    logger.info(`HTTP Server started!`);
+  });
+}

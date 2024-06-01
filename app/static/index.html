@@ -1,77 +1,33 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <title>When Did Apollo Stream Last?</title>
-
-  <link rel="shortcut icon" type="image/jpg" href="./assets/smug.png" />
-
-  <style>
-    p {
-      text-align: center;
-      font-size: 60px;
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-      margin-top: 0px;
-    }
-
-    div {
-      text-align: center;
-      font-size: 30px;
-      margin-top: 30px;
-    }
-
-    img {
-      display: block;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    a {
-      font-family: Verdana, Geneva, Tahoma, sans-serif;
-    }
-  </style>
-
+  <head>
+    <meta name="description" content="BMing Apollo for not streaming." />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" type="image/jpg" href="./assets/smug.png" />
+    <link rel="stylesheet" href="styles.css" />
+    <script src="main.js" async></script>
+  </head>
   <body>
     <p id="main"></p>
-    <img id="smug" src="./assets/smug.png" style="display: none" />
-    <img id="pog" src="./assets/pog.gif" style="display: none" />
+    <img
+      id="smug"
+      alt="Apollo looking smug"
+      src="./assets/smug.png"
+      style="display: none"
+      height="112px"
+      width="112px"
+    />
+    <img
+      id="pog"
+      alt="Apollo pogging hard"
+      src="./assets/pog.gif"
+      style="display: none"
+      height="112px"
+      width="112px"
+    />
     <div>
       <a href="https://twitch.tv/apollo22237">twitch.tv/apollo22237</a>
     </div>
-    <script>
-      window.onload = async function () {
-        //Get Last Stream Time
-        const response = await fetch(`/api`);
-        const json = await response.json();
-        const isLive = json.isLive;
-        const lastStream = new Date(json.lastStream);
-
-        var x = setInterval(function () {
-          // Calculate time since last stream
-          const timeSinceLastStream = Date.now() - lastStream;
-
-          var days = Math.floor(timeSinceLastStream / (1000 * 60 * 60 * 24));
-          var hours = Math.floor(
-            (timeSinceLastStream % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-          );
-          var minutes = Math.floor(
-            (timeSinceLastStream % (1000 * 60 * 60)) / (1000 * 60)
-          );
-          var seconds = Math.floor((timeSinceLastStream % (1000 * 60)) / 1000);
-
-          if (isLive) {
-            document.getElementById("smug").style.display = "none";
-            document.getElementById("pog").style.display = "block";
-            document.getElementById("main").innerHTML =
-              "HE IS STREAMING! GO WATCH";
-          } else {
-            document.getElementById("smug").style.display = "block";
-            document.getElementById("pog").style.display = "none";
-            document.getElementById(
-              "main"
-            ).innerHTML = `It has been ${days} days ${hours} hours ${minutes} minutes and ${seconds} seconds since Apollo's last stream`;
-          }
-          // Update page
-        }, 1000);
-      };
-    </script>
   </body>
 </html>
