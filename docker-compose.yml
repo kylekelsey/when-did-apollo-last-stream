@@ -1,5 +1,6 @@
 services:
   db:
+    image: $DOCKER_HUB_REPO:db
     build: ./db
     restart: always
     env_file: ./.env
@@ -11,6 +12,7 @@ services:
       timeout: 5s
       retries: 10
   web:
+    image: $DOCKER_HUB_REPO:web
     build: .
     ports:
       - $PORT:$PORT
