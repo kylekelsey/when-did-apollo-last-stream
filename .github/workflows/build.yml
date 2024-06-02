@@ -11,6 +11,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4.1.6
   build:
+    needs: checkout
     runs-on: [self-hosted, macOS, X64]
     steps:
       - name: Build and Deploy
