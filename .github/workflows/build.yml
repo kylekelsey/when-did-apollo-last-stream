@@ -2,6 +2,7 @@ name: Build/Deploy to Docker Hub
 on: [push]
 jobs:
   Build-And-Deploy:
-    runs-on: ["self-hosted", "macOS", "X64"]
-    steps:
-      - run: docker compose build --push
+    - uses: actions/checkout@v4
+      runs-on: ["self-hosted", "macOS", "X64"]
+      steps:
+        - run: docker compose build --push
